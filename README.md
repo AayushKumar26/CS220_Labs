@@ -374,5 +374,3 @@ greater:
 ```
 
 ---
-
-*This ISA specification is designed for educational purposes and demonstrates fundamental concepts in instruction set architecture and processor design. Developed for CS220 at IIT Kanpur under Prof. Debapriya Basu Roy.*

@@ -1,0 +1,118 @@
+# Insertion Sort Implementation for IITK MINI-MIPS
+# Sorts an array of integers in ascending order
+# Array starts at memory address 0 (base address in $t1)
+# Array size: 6 elements
+
+# Assembly Code:
+# Register Usage:
+# $t0 - array size (6)
+# $t1 - array base address (0)
+# $t2 - outer loop counter (i)
+# $t3 - address of array[i]
+# $t4 - key value (array[i])
+# $t5 - inner loop counter (j)
+# $t6 - address of array[j]
+# $t7 - array[j] value
+# $t8 - address of array[j+1]
+
+        # Initialize variables
+        addi $t1, $zero, 0         # array base address = 0
+        addi $t0, $zero, 6         # array size = 6
+        addi $t2, $zero, 1         # i = 1 (start from second element)
+
+outer_loop:
+        # Check if i >= n (array size)
+        bgte $t2, $t0, end_sort    # if i >= 6, exit (line 18)
+        
+        # Get array[i] (key)
+        add $t3, $t1, $t2          # t3 = base + i
+        lw $t4, 0($t3)             # t4 = array[i] (key)
+        
+        # Initialize inner loop: j = i - 1
+        addi $t5, $t2, -1          # j = i - 1
+
+inner_loop:
+        # Check if j < 0
+        blt $t5, $zero, insert_key # if j < 0, insert key (line 6 relative)
+        
+        # Get array[j]
+        add $t6, $t1, $t5          # t6 = base + j
+        lw $t7, 0($t6)             # t7 = array[j]
+        
+        # Compare array[j] with key
+        bleq $t7, $t4, insert_key  # if array[j] <= key, insert key (line 3 relative)
+        
+        # Shift element: array[j+1] = array[j]
+        sw $t7, 1($t6)             # array[j+1] = array[j]
+        
+        # Decrement j
+        addi $t5, $t5, -1          # j--
+        j inner_loop               # continue inner loop (line 7)
+
+insert_key:
+        # Insert key at correct position: array[j+1] = key
+        add $t8, $t1, $t5          # t8 = base + j
+        sw $t4, 1($t8)             # array[j+1] = key
+        
+        # Increment i
+        addi $t2, $t2, 1           # i++
+        j outer_loop               # continue outer loop (line 3)
+
+end_sort:
+        # Sorting complete - halt
+        nop                        # no operation (end of program)
+
+# Machine Code with proper formatting:
+instr_mem[0]  = 32'b10000100000010100000000000000000; // addi $t1, $zero, 0
+instr_mem[1]  = 32'b10000100000010010000000000000110; // addi $t0, $zero, 6
+instr_mem[2]  = 32'b10000100000010110000000000000001; // addi $t2, $zero, 1
+instr_mem[3]  = 32'b10110001011010010000000000010010; // bgte $t2, $t0, 18
+instr_mem[4]  = 32'b00000001010010110110000000000001; // add $t3, $t1, $t2
+instr_mem[5]  = 32'b10011001100011010000000000000000; // lw $t4, 0($t3)
+instr_mem[6]  = 32'b10000101011011101111111111111111; // addi $t5, $t2, -1
+instr_mem[7]  = 32'b10110101110000000000000000000110; // blt $t5, $zero, 6
+instr_mem[8]  = 32'b00000001010011100111100000000001; // add $t6, $t1, $t5
+instr_mem[9]  = 32'b10011001111100000000000000000000; // lw $t7, 0($t6)
+instr_mem[10] = 32'b10111010000011010000000000000011; // bleq $t7, $t4, 3
+instr_mem[11] = 32'b10011101111100000000000000000001; // sw $t7, 1($t6)
+instr_mem[12] = 32'b10000101110011101111111111111111; // addi $t5, $t5, -1
+instr_mem[13] = 32'b01000100000000000000000000000111; // j 7
+instr_mem[14] = 32'b00000001010011101000100000000001; // add $t8, $t1, $t5
+instr_mem[15] = 32'b10011110001011010000000000000001; // sw $t4, 1($t8)
+instr_mem[16] = 32'b10000101011010110000000000000001; // addi $t2, $t2, 1
+instr_mem[17] = 32'b01000100000000000000000000000011; // j 3
+instr_mem[18] = 32'b00000000000000000000000000000000; // nop (end)
+
+# Algorithm Explanation:
+# This is an insertion sort algorithm that:
+# 1. Starts with the second element (i=1)
+# 2. For each element, compares it with previous elements
+# 3. Shifts larger elements to the right
+# 4. Inserts the current element at the correct position
+# 5. Repeats until all elements are sorted
+
+# Sample Input Data (to be loaded in data memory starting at address 0):
+# data_mem[0] = 32'd64;    // array[0] = 64
+# data_mem[1] = 32'd34;    // array[1] = 34
+# data_mem[2] = 32'd25;    // array[2] = 25
+# data_mem[3] = 32'd12;    // array[3] = 12
+# data_mem[4] = 32'd22;    // array[4] = 22
+# data_mem[5] = 32'd11;    // array[5] = 11
+
+# Expected Output (after sorting):
+# data_mem[0] = 32'd11;    // array[0] = 11
+# data_mem[1] = 32'd12;    // array[1] = 12
+# data_mem[2] = 32'd22;    // array[2] = 22
+# data_mem[3] = 32'd25;    // array[3] = 25
+# data_mem[4] = 32'd34;    // array[4] = 34
+# data_mem[5] = 32'd64;    // array[5] = 64
+
+# Memory Layout:
+# - Instructions stored in instruction memory (instr_mem[0] to instr_mem[18])
+# - Data array stored in data memory starting at address 0
+# - Array elements are word-aligned (4 bytes each)
+
+# Control Flow:
+# - Outer loop: lines 3-17 (processes each element)
+# - Inner loop: lines 7-13 (shifts elements and finds insertion point)
+# - Jump targets: line 3 (outer_loop), line 7 (inner_loop), line 18 (end_sort)

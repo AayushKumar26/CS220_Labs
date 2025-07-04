@@ -63,28 +63,6 @@ This Mini MIPS processor is developed as part of the CS220 (Introduction to Comp
 - **Arithmetic**: `add.s`, `sub.s`
 - **Comparisons**: `c.eq.s`, `c.le.s`, `c.lt.s`, `c.ge.s`, `c.gt.s`
 
-## Documentation Structure
-
-```
-Mini_MIPS_ISA/
-├── docs/
-│   ├── instruction_reference.md   # Complete instruction list
-│   ├── opcode_table.md           # Opcode and function code tables
-│   ├── control_signals.md        # Control unit specifications
-│   ├── register_map.md           # Register organization
-│   └── alu_operations.md         # ALU control specifications
-├── examples/
-│   ├── arithmetic_demo.s         # Arithmetic instruction examples
-│   ├── memory_operations.s       # Load/store examples
-│   ├── control_flow.s           # Branch and jump examples
-│   └── floating_point.s         # FP operation examples
-├── tools/
-│   ├── assembler.py             # Simple assembler utility
-│   ├── disassembler.py          # Machine code to assembly
-│   └── opcode_generator.py      # Generate opcode tables
-└── README.md
-```
-
 ## Getting Started
 
 ### Prerequisites

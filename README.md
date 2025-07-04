@@ -1,5 +1,5 @@
 # IITK Mini-MIPS
-
+ 
 ## Project Overview
 
 This Mini MIPS processor is developed as part of the CS220 (Introduction to Computer Organisation) curriculum at IIT Kanpur under the guidance of [Prof. Debapriya Basu Roy](https://dbroy24.wixsite.com/research/), Assistant Professor in CSE Dept. at IIT Kanpur. This document provides comprehensive coverage of instruction formats, opcodes, function codes, and control signals required for implementing a complete MIPS-like processor.
